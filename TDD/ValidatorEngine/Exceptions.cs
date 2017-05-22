@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace ValidatorEngine
 {
-    class Exceptions
+    public class NotValidEmailAdress : Exception
     {
+        
+        public NotValidEmailAdress(string message) : base(message)
+        {
+           
+        }
     }
+
+
 }

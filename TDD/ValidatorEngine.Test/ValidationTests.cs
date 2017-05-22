@@ -23,9 +23,23 @@ namespace ValidatorEngine.Test
         [Test]
         public void FalseForInvalidAdress()
         {
-            var sut = new Validator().ValidateEmailAdress("Hepp");
+            var sut = new Validator();
 
-            Assert.IsFalse(sut);
+            Assert.Throws<NotValidEmailAdress>(() =>
+            {
+                sut.ValidateEmailAdress("hepp");
+            });
+        }
+
+        [Test]
+        public void FalseForInvalidAdressEmtyp()
+        {
+            var sut = new Validator();
+
+            Assert.Throws<NotValidEmailAdress>(() =>
+            {
+                sut.ValidateEmailAdress("");
+            });
         }
     }
 }

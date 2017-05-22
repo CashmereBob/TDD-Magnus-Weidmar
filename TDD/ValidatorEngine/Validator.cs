@@ -18,7 +18,7 @@ namespace ValidatorEngine
             }
             catch
             {
-                return false;
+                throw new NotValidEmailAdress("Not valid Email.");
             }
         }
     }
