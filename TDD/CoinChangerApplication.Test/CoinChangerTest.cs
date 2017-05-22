@@ -75,5 +75,86 @@ namespace CoinChangerApplication.Test
             Assert.AreEqual(1, myChange[0.5m]);
 
         }
+
+        [Test]
+        public void ThrowExceptionWhenZeroCoinType()
+        {
+            //Arrange
+            var coinTypes = new List<decimal> { 0.25m, 0.50m, 5.0m, 1.0m, 0m };
+            var sut = new CoinChanger(coinTypes);
+
+            //Assert
+
+            Assert.Throws<ZeroOrNegativeCoinTypeException>(() => {
+
+                Dictionary<decimal, int> myChange = sut.MakeChange(13.75m);
+
+            });
+
+        }
+
+        [Test]
+        public void ThrowExceptionWhenNegativeCoinType()
+        {
+            //Arrange
+            var coinTypes = new List<decimal> { 0.25m, 0.50m, 5.0m, 1.0m, -1.5m };
+            var sut = new CoinChanger(coinTypes);
+
+            //Assert
+            Assert.Throws<ZeroOrNegativeCoinTypeException> (() => {
+
+                //Act
+                Dictionary<decimal, int> myChange = sut.MakeChange(13.75m);
+
+            });
+        }
+
+        [Test]
+        public void ThrowExceptionWhenNegativeAmount()
+        {
+            //Arrange
+            var coinTypes = new List<decimal> { 0.25m, 0.50m };
+            var sut = new CoinChanger(coinTypes);
+
+            //Assert
+            Assert.Throws<NoPossibleExchangeException>(() => {
+
+                //Act
+                Dictionary<decimal, int> myChange = sut.MakeChange(-1);
+
+            });
+        }
+
+        [Test]
+        public void ThrowExceptionWhenNoPossibleExcange()
+        {
+            //Arrange
+            var coinTypes = new List<decimal> { 500 };
+            var sut = new CoinChanger(coinTypes);
+
+            //Assert
+            Assert.Throws<NoPossibleExchangeException>(() => {
+
+                //Act
+                Dictionary<decimal, int> myChange = sut.MakeChange(250);
+
+            });
+        }
+
+        [Test]
+        public void ThrowExceptionWhenNoCoinTypes()
+        {
+            //Arrange
+            var coinTypes = new List<decimal> {  };
+            var sut = new CoinChanger(coinTypes);
+
+            //Assert
+            Assert.Throws<NoPossibleExchangeException>(() => {
+
+                //Act
+                Dictionary<decimal, int> myChange = sut.MakeChange(250);
+
+            });
+        }
     }
 }

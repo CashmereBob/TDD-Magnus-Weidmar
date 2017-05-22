@@ -17,6 +17,16 @@ namespace CoinChangerApplication
 
         public Dictionary<decimal, int> MakeChange(decimal amount)
         {
+        
+            if(coinTypes.Count() == 0 || coinTypes == null)
+            {
+                throw new NoPossibleExchangeException("Missing CoinType.");
+            }
+
+            if (amount <= 0)
+            {
+                throw new NoPossibleExchangeException("Exchange amount is 0 or negative.");
+            }
 
             var change = new Dictionary<decimal, int>();
 
@@ -27,6 +37,11 @@ namespace CoinChangerApplication
             {
                 while (amountLeft >= coinType)
                 {
+                    if (coinType <= 0)
+                    {
+                        throw new ZeroOrNegativeCoinTypeException("Invalid CoinType.");
+                    }
+
                     if (change.ContainsKey(coinType))
                     {
                         change[coinType] += 1;
@@ -38,6 +53,11 @@ namespace CoinChangerApplication
                     
                     amountLeft -= coinType;
                 }
+            }
+
+            if (change.Count() == 0)
+            {
+                throw new NoPossibleExchangeException("No exchange possible.");
             }
 
             return change;
