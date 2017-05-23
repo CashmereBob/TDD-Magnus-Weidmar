@@ -6,10 +6,10 @@ namespace TravelAgency
     {
         public DateTime? SuggestedTime { get; private set; }
 
-        public TourAllocationException(DateTime? sugestedTime)
+        public TourAllocationException(DateTime? sugestedTime = null, string message = null) : base(message)
         {
             this.SuggestedTime = sugestedTime;
-        
+
         }
     }
 }

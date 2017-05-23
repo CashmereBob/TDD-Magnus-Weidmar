@@ -12,10 +12,27 @@ namespace TravelAgency
             tours = new List<Tour>();
         }
 
-        public void CreateTour(string tourName, DateTime tourDate, int numberOfSeats)
+        public List<Tour> CreateTour(string tourName, DateTime tourDate, int numberOfSeats)
         {
+            if (numberOfSeats <= 0)
+            {
+                throw new TourAllocationException(null, "Invalid number of seats");
+
+            }
+
 
             var toursOnDate = tours.Where(x => x.TourDate == tourDate.Date).ToList();
+
+            if (toursOnDate.Count() > 0)
+            {
+                var tourWithSameName = toursOnDate.FirstOrDefault(x => x.TourName == tourName);
+
+                if (tourWithSameName != null)
+                {
+                    throw new TourAllocationException(null, "Tour with that name already exists on the same date");
+                }
+            }
+
             if (toursOnDate.Count() < 3)
             {
                 tours.Add(new Tour(tourName, tourDate.Date, numberOfSeats));
@@ -30,12 +47,12 @@ namespace TravelAgency
 
                     if (toursOnSugestedTime.Count() < 3)
                     {
-                        throw new TourAllocationException(sugestedTime);
+                        throw new TourAllocationException(sugestedTime, "Date was fully booked");
                     }
 
                     if (counter >= 365)
                     {
-                        throw new TourAllocationException(null);
+                        throw new TourAllocationException(null, "No awailable dates this season");
 
                     }
 
@@ -43,12 +60,21 @@ namespace TravelAgency
 
 
             }
-            
+
+            return tours.Where(x => x.TourDate == tourDate.Date).ToList();
+
         }
 
         public List<Tour> GetToursFor(DateTime dateTime)
         {
-            return tours.Where(x => x.TourDate == dateTime).ToList();
+            var toursOnDate = tours.Where(x => x.TourDate == dateTime).ToList();
+
+            if(toursOnDate.Count() < 1)
+            {
+                throw new TourAllocationException(null, "No bookings on this date");
+            }
+
+            return toursOnDate;
         }
     }
 }

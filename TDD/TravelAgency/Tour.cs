@@ -14,6 +14,13 @@ namespace TravelAgency
             set { tourDate = value; }
         }
 
+        public string TourName
+        {
+            get { return tourName; }
+            set { tourName = value; }
+        }
+
+
 
         public Tour(string tourName, DateTime tourDate, int numberOfSeats)
         {
