@@ -56,15 +56,16 @@ namespace TravelAgency.Test
         [Test]
         public void BookingAllocationOverflow()
         {
-            Assert.Throws<TourAllocationException>(() => {
+            var e = Assert.Throws<TourAllocationException>(() => {
 
                 sut.CreateTour("Monkey safari", new DateTime(2017, 12, 1), 20);
                 sut.CreateTour("Monkey safari", new DateTime(2017, 12, 1), 20);
                 sut.CreateTour("Monkey safari", new DateTime(2017, 12, 1), 20);
                 sut.CreateTour("Monkey safari", new DateTime(2017, 12, 1), 20);
-
 
             });
+
+            Assert.AreEqual(new DateTime(2017, 12,2), e.SuggestedTime);
         }
     }
 }

@@ -21,7 +21,27 @@ namespace TravelAgency
                 tours.Add(new Tour(tourName, tourDate.Date, numberOfSeats));
             } else
             {
-                throw new TourAllocationException();
+                int counter = 0;
+                while (true)
+                {
+                    counter++;
+                    var sugestedTime = tourDate.Date.AddDays(counter);
+                    var toursOnSugestedTime = tours.Where(x => x.TourDate == sugestedTime).ToList();
+
+                    if (toursOnSugestedTime.Count() < 3)
+                    {
+                        throw new TourAllocationException(sugestedTime);
+                    }
+
+                    if (counter >= 365)
+                    {
+                        throw new TourAllocationException(null);
+
+                    }
+
+                }
+
+
             }
             
         }
