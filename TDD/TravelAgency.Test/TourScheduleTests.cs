@@ -56,14 +56,13 @@ namespace TravelAgency.Test
         [Test]
         public void BookingAllocationOverflow()
         {
+            sut.CreateTour("Monkey safari1", new DateTime(2017, 12, 1), 20);
+            sut.CreateTour("Monkey safari2", new DateTime(2017, 12, 1), 20);
+            sut.CreateTour("Monkey safari3", new DateTime(2017, 12, 1), 20);
+
             var e = Assert.Throws<TourAllocationException>(() =>
             {
-
-                sut.CreateTour("Monkey safari1", new DateTime(2017, 12, 1), 20);
-                sut.CreateTour("Monkey safari2", new DateTime(2017, 12, 1), 20);
-                sut.CreateTour("Monkey safari3", new DateTime(2017, 12, 1), 20);
                 sut.CreateTour("Monkey safari4", new DateTime(2017, 12, 1), 20);
-
             });
 
             Assert.AreEqual(new DateTime(2017, 12, 2), e.SuggestedTime);
@@ -73,9 +72,10 @@ namespace TravelAgency.Test
         [Test]
         public void BookingToursOnSameDayWithTheSameName()
         {
+            sut.CreateTour("Monkey safari", new DateTime(2017, 12, 1), 20);
+
             var e = Assert.Throws<TourAllocationException>(() =>
             {
-                sut.CreateTour("Monkey safari", new DateTime(2017, 12, 1), 20);
                 sut.CreateTour("Monkey safari", new DateTime(2017, 12, 1), 20);
             });
 
