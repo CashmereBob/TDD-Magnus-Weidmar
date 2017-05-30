@@ -101,6 +101,7 @@ namespace StringCalculator.Test
             Assert.AreEqual(5, result);
         }
 
+        [Test]
         public void CalculateWithMultiCustomMultiTokenDelimeterInput()
         {
             var result = sut.Add("//[Hej][;][Hopp]\n1\n1;1 Hopp1Hej1");

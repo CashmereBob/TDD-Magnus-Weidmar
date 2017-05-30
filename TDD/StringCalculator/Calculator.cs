@@ -11,9 +11,9 @@ namespace StringCalculator
     {
         public int Add(string numbers)
         {
-            var regex = new Regex($"//(.*?)\n");
-            var regexMatch = regex.Match(numbers);
-            var delimeter = regexMatch.Groups[1].ToString();
+            Regex regex = new Regex($"//(.*?)\n");
+            Match regexMatch = regex.Match(numbers);
+            string delimeter = regexMatch.Groups[1].ToString();
 
             string[] delimeterArray = null;
 
@@ -23,14 +23,14 @@ namespace StringCalculator
             }
             else
             {
-                var delimeterList = delimeter.Split(']', '[').Where(x => !string.IsNullOrEmpty(x)).ToList();
+                List<string> delimeterList = delimeter.Split('[', ']').Where(x => !string.IsNullOrEmpty(x)).ToList();
                 delimeterList.Add("\n");
 
                 delimeterArray = delimeterList.ToArray();
             }
 
-            int temp;
-            var list = numbers.Split(delimeterArray, StringSplitOptions.None).Where(x => int.TryParse(x, out temp)).ToList();
+            int tempOutput;
+            List<string> list = numbers.Split(delimeterArray, StringSplitOptions.None).Where(x => int.TryParse(x, out tempOutput)).ToList();
 
             int result = 0;
 
@@ -38,7 +38,7 @@ namespace StringCalculator
 
             foreach (var num in list)
             {
-                var parsedNum = int.Parse(num);
+                int parsedNum = int.Parse(num);
 
                 if (parsedNum < 0)
                 {
